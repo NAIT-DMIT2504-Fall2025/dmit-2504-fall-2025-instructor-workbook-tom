@@ -10,5 +10,5 @@ void main(List<String> arguments) {
   var total = calculateTotal(coinCounts: coins);
 
   // Output the change amount
-  stdout.writeln('Your total change amount is ${total / 100}');
+  stdout.writeln('Your total change amount is \$${total / 100}');
 }

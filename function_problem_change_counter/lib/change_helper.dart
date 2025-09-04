@@ -37,16 +37,18 @@ List<int> promptForChange() {
   return output;
 }
 
-// TODO: Create a function that calculates change total
-
 /// Calculates the total number of cents given an ordered list of coins (pennies, nickels, dimes, quarters, loonies, toonies)
 /// [Returns] the total number of cents
 int calculateTotal({required List<int> coinCounts}) {
   int total = 0;
 
-  // TODO: Multiply each coin count by its value
-
-  // TODO: sum coin counts
+  // Multiply and tally each coin count by its value
+  total += coinCounts[0];
+  total += coinCounts[1] * 5;
+  total += coinCounts[2] * 10;
+  total += coinCounts[3] * 25;
+  total += coinCounts[4] * 100;
+  total += coinCounts[5] * 200;
 
   return total;
 }
