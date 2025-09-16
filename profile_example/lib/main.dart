@@ -9,11 +9,68 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(title: Text('Profile Page')),
         body: Center(
-          child: Text('Hello World!'),
+          child: Column(
+            children: [
+              // Header
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Employee Profile',
+                  style: TextStyle(fontSize: 36.0, fontWeight: FontWeight.bold),
+                ),
+              ),
+              ClipOval(
+                child: Image.asset(
+                  'assets/images/dog.jpg',
+                  height: 250,
+                  width: 250,
+                ),
+              ),
+              Text(
+                'Nathan Dogphry',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
+              ),
+              Column(
+                children: [
+                  ProfileInfo(label: 'Role', value: 'Good Boy'),
+                  ProfileInfo(
+                    label: 'Responsibilites',
+                    value: 'Fetch, Bark, Lick',
+                  ),
+                  ProfileInfo(label: 'Favourite Food', value: 'Eggs'),
+                  ProfileInfo(label: 'Handle', value: '@TheRealDogphry'),
+                ],
+              ),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+}
+
+class ProfileInfo extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const ProfileInfo({required this.label, required this.value, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0),
+      child: Row(
+        children: [
+          Text(
+            '$label: ',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          Text(value, style: TextStyle(fontSize: 20)),
+        ],
       ),
     );
   }
