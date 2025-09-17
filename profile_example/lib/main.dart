@@ -10,6 +10,12 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.deepOrange,
+          backgroundColor: Colors.lightGreen,
+        ),
+      ),
       home: Scaffold(
         appBar: AppBar(title: Text('Profile Page')),
         body: Center(
@@ -50,7 +56,11 @@ class ProfileHeader extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Text(
         'Employee Profile',
-        style: TextStyle(fontSize: 36.0, fontWeight: FontWeight.bold),
+        style: TextStyle(
+          fontSize: 36.0,
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
     );
   }
@@ -62,7 +72,18 @@ class ProfileImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipOval(child: Image.asset(imageUrl, height: 250, width: 250));
+    return Container(
+      width: 250,
+      height: 250,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        image: DecorationImage(image: AssetImage(imageUrl), fit: BoxFit.cover),
+        border: Border.all(
+          width: 4.0,
+          color: Theme.of(context).colorScheme.background,
+        ),
+      ),
+    );
   }
 }
 
