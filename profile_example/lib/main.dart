@@ -10,6 +10,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var lightTheme = ThemeData(
+      fontFamily: 'ComicRelief',
       colorScheme: ColorScheme.fromSwatch(
         primarySwatch: Colors.deepOrange,
         backgroundColor: Colors.lightGreen,
