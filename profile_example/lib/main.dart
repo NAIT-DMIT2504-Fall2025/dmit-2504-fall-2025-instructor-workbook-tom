@@ -9,13 +9,25 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.deepOrange,
-          backgroundColor: Colors.lightGreen,
-        ),
+    var lightTheme = ThemeData(
+      colorScheme: ColorScheme.fromSwatch(
+        primarySwatch: Colors.deepOrange,
+        backgroundColor: Colors.lightGreen,
       ),
+    );
+
+    var darkTheme = lightTheme.copyWith(
+      colorScheme: ColorScheme.fromSwatch(
+        primarySwatch: Colors.deepOrange,
+        cardColor: Colors.black87,
+        backgroundColor: Colors.black87,
+      ),
+    );
+
+    return MaterialApp(
+      themeMode: ThemeMode.light,
+      theme: lightTheme,
+      darkTheme: darkTheme,
       home: Scaffold(
         appBar: AppBar(title: Text('Profile Page')),
         body: Center(
@@ -80,7 +92,7 @@ class ProfileImage extends StatelessWidget {
         image: DecorationImage(image: AssetImage(imageUrl), fit: BoxFit.cover),
         border: Border.all(
           width: 4.0,
-          color: Theme.of(context).colorScheme.background,
+          color: Theme.of(context).colorScheme.secondary,
         ),
       ),
     );
