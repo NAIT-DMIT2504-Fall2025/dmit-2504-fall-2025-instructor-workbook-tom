@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:json_theme/json_theme.dart';
 
-void main() {
-  runApp(const MainApp());
+import 'package:flutter/services.dart'; // For rootBundle
+import 'dart:convert'; // For jsonDecode
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final themeStr = await rootBundle.loadString('assets/appainter_theme.json');
+  final themeJson = jsonDecode(themeStr);
+  final theme = ThemeDecoder.decodeThemeData(themeJson)!;
+
+  runApp(MainApp(theme: theme));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  final ThemeData theme;
+  const MainApp({required this.theme, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +38,7 @@ class MainApp extends StatelessWidget {
 
     return MaterialApp(
       themeMode: ThemeMode.light,
-      theme: lightTheme,
+      theme: theme,
       darkTheme: darkTheme,
       home: Scaffold(
         appBar: AppBar(title: Text('Profile Page')),
