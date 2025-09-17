@@ -16,20 +16,8 @@ class MainApp extends StatelessWidget {
           child: Column(
             children: [
               // Header
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'Employee Profile',
-                  style: TextStyle(fontSize: 36.0, fontWeight: FontWeight.bold),
-                ),
-              ),
-              ClipOval(
-                child: Image.asset(
-                  'assets/images/dog.jpg',
-                  height: 250,
-                  width: 250,
-                ),
-              ),
+              ProfileHeader(),
+              ProfileImage(imageUrl: 'assets/images/dog.jpg'),
               Text(
                 'Nathan Dogphry',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
@@ -50,6 +38,31 @@ class MainApp extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class ProfileHeader extends StatelessWidget {
+  const ProfileHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Text(
+        'Employee Profile',
+        style: TextStyle(fontSize: 36.0, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}
+
+class ProfileImage extends StatelessWidget {
+  final String imageUrl;
+  const ProfileImage({required this.imageUrl, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipOval(child: Image.asset(imageUrl, height: 250, width: 250));
   }
 }
 
