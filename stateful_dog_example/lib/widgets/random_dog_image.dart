@@ -54,34 +54,38 @@ class _RandomDogImageState extends State<RandomDogImage> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildImage() {
     return _dogImageUrl.isEmpty
         ? CircularProgressIndicator()
-        : Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onDoubleTap: () {
-                  _incrementCounter(true);
-                },
-                onLongPress: () {
-                  _incrementCounter(false);
-                },
-                child: Image.network(_dogImageUrl, height: 250),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text('Likes: $_likes', style: TextStyle(fontSize: 24)),
-                  Text('Dislikes: $_dislikes', style: TextStyle(fontSize: 24)),
-                ],
-              ),
-              ElevatedButton(
-                onPressed: _refreshDog,
-                child: Text('Get me a new dog please'),
-              ),
-            ],
+        : GestureDetector(
+            onDoubleTap: () {
+              _incrementCounter(true);
+            },
+            onLongPress: () {
+              _incrementCounter(false);
+            },
+            child: Image.network(_dogImageUrl, height: 250),
           );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _buildImage(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text('Likes: $_likes', style: TextStyle(fontSize: 24)),
+            Text('Dislikes: $_dislikes', style: TextStyle(fontSize: 24)),
+          ],
+        ),
+        ElevatedButton(
+          onPressed: _refreshDog,
+          child: Text('Get me a new dog please'),
+        ),
+      ],
+    );
   }
 }
