@@ -12,14 +12,22 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Login Form'),
-              TextField(),
-              TextField(),
-              TextButton(onPressed: () {}, child: Text('Submit')),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Login Form'),
+                TextField(decoration: InputDecoration(label: Text('Username'))),
+                TextField(
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  decoration: InputDecoration(label: Text('Password')),
+                ),
+                TextButton(onPressed: () {}, child: Text('Submit')),
+              ],
+            ),
           ),
         ),
       ),
