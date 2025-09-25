@@ -44,13 +44,7 @@ class _UserLoginFormState extends State<UserLoginForm> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Login Form'),
-            TextFormField(
-              controller: _usernameController,
-              validator: (value) => value == null || value.isEmpty
-                  ? 'Username cannot be empty'
-                  : null,
-              decoration: InputDecoration(label: Text('Username')),
-            ),
+            UsernameInput(usernameController: _usernameController),
             TextFormField(
               controller: _passwordController,
               obscureText: true,
@@ -90,6 +84,27 @@ class _UserLoginFormState extends State<UserLoginForm> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class UsernameInput extends StatelessWidget {
+  const UsernameInput({
+    super.key,
+    required TextEditingController usernameController,
+    this.label = 'Username',
+  }) : _usernameController = usernameController;
+
+  final TextEditingController _usernameController;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: _usernameController,
+      validator: (value) =>
+          value == null || value.isEmpty ? 'Username cannot be empty' : null,
+      decoration: InputDecoration(label: Text(label)),
     );
   }
 }
