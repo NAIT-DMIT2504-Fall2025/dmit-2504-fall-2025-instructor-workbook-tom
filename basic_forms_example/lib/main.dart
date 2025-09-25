@@ -46,6 +46,9 @@ class _UserLoginFormState extends State<UserLoginForm> {
             Text('Login Form'),
             TextFormField(
               controller: _usernameController,
+              validator: (value) => value == null || value.isEmpty
+                  ? 'Username cannot be empty'
+                  : null,
               decoration: InputDecoration(label: Text('Username')),
             ),
             TextFormField(
@@ -53,9 +56,37 @@ class _UserLoginFormState extends State<UserLoginForm> {
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'The password cannot be nothing';
+                }
+                if (value.length < 6) {
+                  return 'The password must be at least 6 characters';
+                }
+                return null;
+              },
               decoration: InputDecoration(label: Text('Password')),
             ),
-            TextButton(onPressed: () {}, child: Text('Submit')),
+            TextButton(
+              onPressed: () {
+                // First we will validate the fields
+                if (_formKey.currentState!.validate()) {
+                  // If everything is valid we will "submit" the form
+                  // Normally this is where you would make the API request etc.
+                  // Instead we will show the username and password using the snackbar
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Username: ${_usernameController.text}, Password: ${_passwordController.text}',
+                      ),
+                    ),
+                  );
+                  // Then we reset the form
+                  _formKey.currentState!.reset();
+                }
+              },
+              child: Text('Submit'),
+            ),
           ],
         ),
       ),
