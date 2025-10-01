@@ -108,3 +108,62 @@ class UsernameInput extends StatelessWidget {
     );
   }
 }
+
+class PasswordFormField extends FormField {
+  final TextEditingController controller;
+
+  PasswordFormField({super.key, required this.controller, super.validator})
+    : super(
+        builder: (state) {
+          var customState = state as _PasswordFormFieldState;
+          customState._controller = controller;
+          return TextFormField(
+            validator: validator,
+            controller: controller,
+            obscureText: true,
+            autocorrect: false,
+            enableSuggestions: false,
+            decoration: InputDecoration(label: Text('password')),
+            onChanged: customState.didChange,
+          );
+        },
+      );
+
+  @override
+  FormFieldState<String> createState() => _PasswordFormFieldState();
+}
+
+class _PasswordFormFieldState extends FormFieldState<String> {
+  TextEditingController? _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    if (_controller != null) {
+      _controller?.addListener(_controllerChanged);
+    }
+  }
+
+  void _controllerChanged() {
+    // In here I could handle controller changes in some custom way
+    didChange(_controller?.text);
+  }
+
+  @override
+  void reset() {
+    super.reset();
+    // Here we could override the reset to handle that in a custom way
+    if (_controller != null) {
+      _controller?.text = '';
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // If you override the custom onChange you also should override the custom dispose
+    if (_controller != null) {
+      _controller?.removeListener(_controllerChanged);
+    }
+  }
+}
