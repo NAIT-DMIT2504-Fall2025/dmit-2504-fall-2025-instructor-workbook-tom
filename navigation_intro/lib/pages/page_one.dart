@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navigation_intro/pages/page_two.dart';
+import 'package:navigation_intro/routes.dart' as routes;
 
 class PageOne extends StatefulWidget {
   const PageOne({super.key});
@@ -19,9 +19,7 @@ class _PageOneState extends State<PageOne> {
             Text('Page One'),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(
-                  context,
-                ).push(MaterialPageRoute(builder: (context) => PageTwo()));
+                Navigator.of(context).pushNamed(routes.pageTwoRoute);
               },
               child: Text('Route to Page Two'),
             ),
