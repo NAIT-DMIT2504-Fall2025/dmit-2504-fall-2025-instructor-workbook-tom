@@ -9,6 +9,8 @@ class PageOne extends StatefulWidget {
 }
 
 class _PageOneState extends State<PageOne> {
+  var data = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,11 +20,17 @@ class _PageOneState extends State<PageOne> {
           children: [
             Text('Page One'),
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(routes.pageTwoRoute);
+              onPressed: () async {
+                var result = await Navigator.of(
+                  context,
+                ).pushNamed(routes.pageTwoRoute);
+                setState(() {
+                  data = result as String;
+                });
               },
               child: Text('Route to Page Two'),
             ),
+            data.isEmpty ? Text('Awaiting Data') : Text('Recieved: $data'),
           ],
         ),
       ),
