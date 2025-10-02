@@ -22,9 +22,11 @@ class MainApp extends StatelessWidget {
             page = HomePage();
             break;
 
-          case '/settings/home':
+          case String name when name.startsWith('/settings/'):
+            // This allows /settings/home to pass /home to the settings manager
+            // Or /settings/option1 passes /option1
             // Modify this
-            page = SettingsManager();
+            page = SettingsManager(initialRoute: settings.name!.substring(9));
             break;
 
           default:

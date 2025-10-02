@@ -5,7 +5,9 @@ import 'package:nested_nav/pages/settings/option_3.dart';
 import 'package:nested_nav/pages/settings_page.dart';
 
 class SettingsManager extends StatefulWidget {
-  const SettingsManager({super.key});
+  final String initialRoute;
+
+  const SettingsManager({super.key, required this.initialRoute});
 
   @override
   State<SettingsManager> createState() => _SettingsManagerState();
@@ -41,7 +43,7 @@ class _SettingsManagerState extends State<SettingsManager> {
     return Scaffold(
       body: Navigator(
         onGenerateRoute: _customOnGenerateRoute,
-        initialRoute: '/home',
+        initialRoute: widget.initialRoute,
       ),
     );
   }
