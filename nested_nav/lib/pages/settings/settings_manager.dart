@@ -14,6 +14,8 @@ class SettingsManager extends StatefulWidget {
 }
 
 class _SettingsManagerState extends State<SettingsManager> {
+  final _navigatorKey = GlobalKey<NavigatorState>();
+
   Route _customOnGenerateRoute(RouteSettings settings) {
     Widget page;
 
@@ -41,7 +43,23 @@ class _SettingsManagerState extends State<SettingsManager> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('App Settings'),
+        leading: IconButton(
+          onPressed: () {
+            // Check if the sibling navigator has any pages on the stack
+            // If not pop the parent stack
+            if (_navigatorKey.currentState!.canPop()) {
+              _navigatorKey.currentState!.pop();
+            } else {
+              Navigator.of(context).pop();
+            }
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
+      ),
       body: Navigator(
+        key: _navigatorKey,
         onGenerateRoute: _customOnGenerateRoute,
         initialRoute: widget.initialRoute,
       ),
