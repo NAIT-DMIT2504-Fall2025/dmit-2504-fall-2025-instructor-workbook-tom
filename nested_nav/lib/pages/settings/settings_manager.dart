@@ -20,7 +20,7 @@ class _SettingsManagerState extends State<SettingsManager> {
     Widget page;
 
     switch (settings.name) {
-      case '/home':
+      case '/':
         page = SettingsPage();
         break;
       case '/option1':
