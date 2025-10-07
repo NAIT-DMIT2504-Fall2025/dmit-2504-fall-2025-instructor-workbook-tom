@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class RandomDogImage extends StatefulWidget {
   const RandomDogImage({super.key});
@@ -26,8 +28,19 @@ class _RandomDogImageState extends State<RandomDogImage> {
   void initState() {
     super.initState();
 
-    // Get a random dog on load
-    _refreshDog();
+    // Check if there is a local image, if so display that else get new dog
+    getTemporaryDirectory().then((dir) {
+      final file = File('${dir.path}/last_seen_dog.jpg');
+
+      if (file.existsSync()) {
+        setState(() {
+          _dogImageUrl = file.path;
+        });
+      } else {
+        // Get a random dog on load
+        _refreshDog();
+      }
+    });
   }
 
   void _incrementCounter(bool isLikes) {
@@ -55,6 +68,19 @@ class _RandomDogImageState extends State<RandomDogImage> {
   }
 
   Widget _buildImage() {
+    Widget childWidget;
+
+    // Display the local image if the url is for a local image
+    if (_dogImageUrl.startsWith('http')) {
+      // Network image url
+      childWidget = Image.network(_dogImageUrl);
+
+      // TODO: Update the local cache with the dog image from the network
+    } else {
+      // Local image url
+      childWidget = Image.file(File(_dogImageUrl));
+    }
+
     return _dogImageUrl.isEmpty
         ? CircularProgressIndicator()
         : GestureDetector(
@@ -64,7 +90,7 @@ class _RandomDogImageState extends State<RandomDogImage> {
             onLongPress: () {
               _incrementCounter(false);
             },
-            child: Image.network(_dogImageUrl, height: 250),
+            child: childWidget,
           );
   }
 
