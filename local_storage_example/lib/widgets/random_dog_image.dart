@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RandomDogImage extends StatefulWidget {
   const RandomDogImage({super.key});
@@ -50,8 +51,14 @@ class _RandomDogImageState extends State<RandomDogImage> {
       } else {
         _dislikes++;
       }
+      _updateCounterPreferences(isLikes);
     });
     _refreshDog();
+  }
+
+  void _updateCounterPreferences(bool isLikes) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt(isLikes ? 'likes' : 'dislikes', isLikes ? _likes : _dislikes);
   }
 
   void _refreshDog() {
@@ -67,6 +74,21 @@ class _RandomDogImageState extends State<RandomDogImage> {
     });
   }
 
+  void _saveImage(String url) async {
+    // Get the temp directory
+    final dir = await getTemporaryDirectory();
+
+    // Create the file path
+    final filePath = '${dir.path}/last_seen_dog.jpg';
+
+    // Get the image from the internet
+    final response = await http.get(Uri.parse(url));
+
+    // Write the image to the file path
+    final file = File(filePath);
+    file.writeAsBytesSync(response.bodyBytes);
+  }
+
   Widget _buildImage() {
     Widget childWidget;
 
@@ -75,7 +97,8 @@ class _RandomDogImageState extends State<RandomDogImage> {
       // Network image url
       childWidget = Image.network(_dogImageUrl);
 
-      // TODO: Update the local cache with the dog image from the network
+      // Update the local cache with the dog image from the network
+      _saveImage(_dogImageUrl);
     } else {
       // Local image url
       childWidget = Image.file(File(_dogImageUrl));
