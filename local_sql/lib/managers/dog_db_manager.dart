@@ -50,7 +50,7 @@ class DogDbManager {
 
   Future<List<Dog>> getDogs() async {
     final db = await database;
-    final dogMaps = await db.query('dogs');
+    final dogMaps = await db.query('dog');
 
     // Option 1: For loop
     // List<Dog> output = [];
