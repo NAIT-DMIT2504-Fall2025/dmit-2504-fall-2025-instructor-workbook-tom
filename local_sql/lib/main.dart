@@ -26,13 +26,19 @@ class _MainAppState extends State<MainApp> {
         body: Center(
           child: ListView.separated(
             itemBuilder: (context, index) {
-              return ListTile();
+              return ListTile(
+                title: Text('${dogs[index].name} - ${dogs[index].age}'),
+              );
             },
             separatorBuilder: (_, __) {
               return Divider();
             },
             itemCount: dogs.length,
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(Icons.add),
         ),
       ),
     );
