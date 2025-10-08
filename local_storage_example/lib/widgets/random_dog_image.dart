@@ -29,9 +29,20 @@ class _RandomDogImageState extends State<RandomDogImage> {
   void initState() {
     super.initState();
 
+    SharedPreferences.getInstance().then((prefs) {
+      final likes = prefs.getInt('likes');
+      final dislikes = prefs.getInt('dislikes');
+
+      setState(() {
+        _likes = likes ?? 0;
+        _dislikes = dislikes ?? 0;
+      });
+    });
+
     // Check if there is a local image, if so display that else get new dog
     getTemporaryDirectory().then((dir) {
       final file = File('${dir.path}/last_seen_dog.jpg');
+      print(file.path);
 
       if (file.existsSync()) {
         setState(() {
