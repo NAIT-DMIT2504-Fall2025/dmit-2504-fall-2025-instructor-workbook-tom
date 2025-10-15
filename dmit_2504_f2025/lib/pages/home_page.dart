@@ -1,10 +1,34 @@
+import 'package:dmit_2504_f2025/app_state.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required this.authAppState});
+
+  final ApplicationState authAppState;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('This is the Home Page')));
+    return Scaffold(
+      body: Center(
+        child: ListenableBuilder(
+          listenable: authAppState,
+          builder: (context, _) {
+            return authAppState.isLoggedIn
+                ? ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/profile');
+                    },
+                    child: Text('go to profile'),
+                  )
+                : ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/sign-in');
+                    },
+                    child: Text("go to sign in"),
+                  );
+          },
+        ),
+      ),
+    );
   }
 }
