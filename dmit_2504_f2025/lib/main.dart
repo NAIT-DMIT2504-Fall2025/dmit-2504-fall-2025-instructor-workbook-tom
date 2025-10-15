@@ -41,6 +41,10 @@ class MainApp extends StatelessWidget {
                 return;
               }
 
+              if (authState is UserCreated) {
+                user.updateDisplayName(user.email!.split('@').first);
+              }
+
               // User is not null so go to the home page
               Navigator.of(context).pop();
 
@@ -50,7 +54,16 @@ class MainApp extends StatelessWidget {
         );
       },
       '/profile': (context) {
-        return ProfileScreen();
+        return ProfileScreen(
+          actions: [
+            SignedOutAction((context) {
+              // Remove the dialog and navigate to home page
+              Navigator.of(context).pop();
+
+              Navigator.of(context).pushReplacementNamed('/');
+            }),
+          ],
+        );
       },
     };
 
