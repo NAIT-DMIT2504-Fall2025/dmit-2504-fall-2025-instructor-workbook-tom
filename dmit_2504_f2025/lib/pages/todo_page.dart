@@ -35,7 +35,12 @@ class _TodoPageState extends State<TodoPage> {
               trailing: Checkbox(
                 value: _todoList[index].completed,
                 onChanged: (value) {
-                  // TODO: Update the todo item status
+                  // Update frontend first
+                  setState(() {
+                    _todoList[index].completed = value!;
+                    // Update backend next (We should handle failures but we won't in this example)
+                    widget.appstate.updateTodo(_todoList[index]);
+                  });
                 },
               ),
             );

@@ -53,6 +53,18 @@ class ApplicationState extends ChangeNotifier {
         });
   }
 
+  void updateTodo(Todo todo) {
+    if (user == null) {
+      throw ArgumentError('Cannot update todos when user is null');
+    }
+
+    // Update this doc to make backend todo match our frontend todo
+    FirebaseFirestore.instance
+        .collection('/todos/${user!.uid}/todos')
+        .doc(todo.id)
+        .update(todo.toMap());
+  }
+
   void init() async {
     // Connect to firebase
     await Firebase.initializeApp(
