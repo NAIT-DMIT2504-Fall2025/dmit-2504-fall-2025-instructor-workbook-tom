@@ -1,5 +1,6 @@
 import 'package:dmit_2504_f2025/app_state.dart';
 import 'package:dmit_2504_f2025/pages/home_page.dart';
+import 'package:dmit_2504_f2025/pages/todo_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
@@ -67,6 +68,28 @@ class MainApp extends StatelessWidget {
       },
     };
 
-    return MaterialApp(routes: routes);
+    return MaterialApp(
+      routes: routes,
+      onGenerateRoute: (settings) {
+        if (settings.name == '/todos') {
+          // check auth and go to todos if allowed
+          if (appState.isLoggedIn) {
+            return MaterialPageRoute(
+              builder: (context) {
+                return TodoPage();
+              },
+            );
+          }
+          // else go to home
+          return MaterialPageRoute(
+            builder: (context) {
+              return HomePage(authAppState: appState);
+            },
+          );
+        }
+        // If route is not protected do the default behaviour (essentially a 404)
+        return null;
+      },
+    );
   }
 }
