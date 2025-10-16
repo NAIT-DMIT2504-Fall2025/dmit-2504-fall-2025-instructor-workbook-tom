@@ -1,18 +1,28 @@
+import 'package:dmit_2504_f2025/app_state.dart';
 import 'package:dmit_2504_f2025/models/todo.dart';
 import 'package:flutter/material.dart';
 
 class TodoPage extends StatefulWidget {
-  const TodoPage({super.key});
+  const TodoPage({super.key, required this.appstate});
+
+  final ApplicationState appstate;
 
   @override
   State<TodoPage> createState() => _TodoPageState();
 }
 
 class _TodoPageState extends State<TodoPage> {
-  List<Todo> _todoList = [
-    Todo(description: "Paint office", completed: false),
-    Todo(description: "Install smoke detectors", completed: true),
-  ];
+  List<Todo> _todoList = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    // On load get the todos from the app state
+    setState(() {
+      _todoList = widget.appstate.todos!;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
