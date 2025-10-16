@@ -1,7 +1,9 @@
+import 'package:dmit_2504_f2025/models/todo.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'firebase_options.dart';
 
@@ -22,6 +24,35 @@ class ApplicationState extends ChangeNotifier {
     _user = user;
   }
 
+  List<Todo>? _todos;
+  List<Todo>? get todos {
+    if (user == null) {
+      throw ArgumentError('Cannot get todos when user is null');
+    }
+    return _todos;
+  }
+
+  set todos(List<Todo> todos) {
+    if (user == null) {
+      throw ArgumentError('Cannot set todos when user is null');
+    }
+    _todos = todos;
+  }
+
+  void _fetchTodos() {
+    if (user == null) {
+      throw ArgumentError('Cannot fetch todos when user is null');
+    }
+    FirebaseFirestore.instance
+        .collection('/todos/${user!.uid}/todos')
+        .get()
+        .then((collectionSnapshot) {
+          todos = collectionSnapshot.docs
+              .map((doc) => Todo.fromFirestore(doc))
+              .toList();
+        });
+  }
+
   void init() async {
     // Connect to firebase
     await Firebase.initializeApp(
@@ -38,6 +69,8 @@ class ApplicationState extends ChangeNotifier {
         _loggedIn = true;
         // Store the logged in user in our state
         this.user = user;
+        // Every time the user changes (most importantly on login)
+        _fetchTodos();
       } else {
         _loggedIn = false;
       }
