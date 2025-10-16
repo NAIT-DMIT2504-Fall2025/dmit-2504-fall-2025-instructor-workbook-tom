@@ -13,6 +13,15 @@ class ApplicationState extends ChangeNotifier {
   bool _loggedIn = false;
   bool get isLoggedIn => _loggedIn;
 
+  User? _user;
+  User? get user => _user;
+  set user(User? user) {
+    if (user == null) {
+      throw ArgumentError('Cannot set user to null');
+    }
+    _user = user;
+  }
+
   void init() async {
     // Connect to firebase
     await Firebase.initializeApp(
@@ -27,6 +36,8 @@ class ApplicationState extends ChangeNotifier {
       // when the user changes check if null and update loggedIn accordingly
       if (user != null) {
         _loggedIn = true;
+        // Store the logged in user in our state
+        this.user = user;
       } else {
         _loggedIn = false;
       }
