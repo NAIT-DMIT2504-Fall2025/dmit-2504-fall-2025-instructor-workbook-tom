@@ -65,6 +65,20 @@ class ApplicationState extends ChangeNotifier {
         .update(todo.toMap());
   }
 
+  void deleteTodo(Todo todo) {
+    if (user == null) {
+      throw ArgumentError('Cannot delete todos when user is null');
+    }
+
+    FirebaseFirestore.instance
+        .collection('/todos/${user!.uid}/todos')
+        .doc(todo.id)
+        .delete()
+        .then((_) {
+          todos!.remove(todo);
+        });
+  }
+
   void init() async {
     // Connect to firebase
     await Firebase.initializeApp(
