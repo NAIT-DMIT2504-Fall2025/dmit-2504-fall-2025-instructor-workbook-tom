@@ -2,7 +2,7 @@ import 'package:bloc_state/models/user.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// Wrap our user in a user state
+// Wrap our user in a user state for immutability purposes
 class UserState {
   User user;
   UserState(this.user);
