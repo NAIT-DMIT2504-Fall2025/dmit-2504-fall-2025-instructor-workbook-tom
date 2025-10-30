@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:camera_app/pages/gallery_page.dart';
 import 'package:flutter/material.dart';
 
 class CameraPage extends StatefulWidget {
@@ -24,6 +25,7 @@ class _CameraPageState extends State<CameraPage> {
     _controller
         .initialize()
         .then((_) {
+          if (!mounted) return;
           // Once the controller is initialized it's good practice to rerender the screen to avoid any wonkiness
           setState(() {});
           // This is also where you could set camera presets if you wanted
@@ -38,6 +40,12 @@ class _CameraPageState extends State<CameraPage> {
           }
           // Handle other exceptions here
         });
+  }
+
+  @override
+  dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   Future<XFile?> takePicture() async {
@@ -56,14 +64,34 @@ class _CameraPageState extends State<CameraPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Camera Page")),
+      appBar: AppBar(
+        title: Text("Camera Page"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(
+                context,
+              ).push(MaterialPageRoute(builder: (_) => GalleryPage()));
+            },
+            icon: Icon(Icons.photo),
+          ),
+        ],
+      ),
       body: Center(
         child: Column(children: [Expanded(child: CameraPreview(_controller))]),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          takePicture();
-          // TODO: save the picture that we take
+        onPressed: () async {
+          if (mounted) {
+            var file = await takePicture();
+
+            if (file != null && mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Picture saved to ${file.path}")),
+              );
+            }
+            // It only saves to the cache for now, so maybe in the future save it to a more secure location (Or upload it)
+          }
         },
         child: Icon(Icons.camera),
       ),
