@@ -9,31 +9,21 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-      ),
+      appBar: AppBar(title: const Text('Home Page')),
       body: Center(
         child: Column(
           children: <Widget>[
-            const SizedBox(
-              height: 24.0,
-            ),
+            const SizedBox(height: 24.0),
             ElevatedButton(
               onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const FirstNamePage(),
-                ),
+                MaterialPageRoute(builder: (context) => const FirstNamePage()),
               ),
               child: const Text('First Name Page'),
             ),
-            const SizedBox(
-              height: 24.0,
-            ),
+            const SizedBox(height: 24.0),
             ElevatedButton(
               onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const LastNamePage(),
-                ),
+                MaterialPageRoute(builder: (context) => const LastNamePage()),
               ),
               child: const Text('Last Name Page'),
             ),
