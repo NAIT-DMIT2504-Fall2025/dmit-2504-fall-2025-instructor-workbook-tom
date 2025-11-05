@@ -14,14 +14,21 @@ void main() {
       await tester.pumpWidget(MainApp());
 
       // Verify that the text is visible
+      expect(find.text("Mark"), findsOneWidget);
+      expect(find.text("OhHi@mark.ca"), findsOneWidget);
 
       // Find the button
+      final button = find.byType(ElevatedButton);
 
       // Tap on the button
+      await tester.tap(button);
 
       // Wait for rerenders
+      await tester.pumpAndSettle();
 
       // Verify the text has disappeared
+      expect(find.text("Mark"), findsNothing);
+      expect(find.text("OhHi@mark.ca"), findsNothing);
     });
   });
 }
